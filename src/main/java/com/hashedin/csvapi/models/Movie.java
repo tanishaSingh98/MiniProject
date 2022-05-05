@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "Movie")
+@DynamoDBTable(tableName = "Movie2")
 public class Movie {
 
     @DynamoDBHashKey
@@ -18,7 +18,7 @@ public class Movie {
     @DynamoDBAttribute
     private String title;
     @DynamoDBAttribute
-    private String date_published;
+    private String yearOfRelease;
     @DynamoDBAttribute
     private String genre;
     @DynamoDBAttribute
@@ -31,16 +31,16 @@ public class Movie {
     private String director;
 
     @DynamoDBAttribute
-    private Integer budget;
+    private String budget;
 
     @DynamoDBAttribute
-    private Integer reviews_from_users;
+    private String reviews_from_users;
 
 
-    public Movie(String title, String date_published, String genre, String duration, String country, String movie_language, String director
-    , Integer reviews_from_users, Integer budget) {
+    public Movie(String title, String yearOfRelease, String genre, String duration, String country, String movie_language, String director
+    , String reviews_from_users, String budget) {
         this.title = title;
-        this.date_published = date_published;
+        this.yearOfRelease = yearOfRelease;
         this.genre=genre;
         this.duration = duration;
         this.country = country;

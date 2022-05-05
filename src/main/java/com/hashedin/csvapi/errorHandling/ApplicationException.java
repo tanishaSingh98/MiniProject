@@ -8,6 +8,8 @@ public class ApplicationException  extends RuntimeException {
 
     public  ApplicationException(String exception) {
         super(exception);
+        System.out.println(exception);
+
     }
 
 }

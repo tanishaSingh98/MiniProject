@@ -17,8 +17,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String token = httpRequest.getHeader("x-auth-token");
-
-        if (token == null || token.isEmpty()) {
+        if (!token.equals("xyz")) {
             ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             ((HttpServletResponse)response).sendError(HttpServletResponse.SC_UNAUTHORIZED,"NOT AUTHORIZED");
         }

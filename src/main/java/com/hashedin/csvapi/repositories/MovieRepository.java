@@ -68,8 +68,8 @@ public class MovieRepository {
         }
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":v1", new AttributeValue().withS(director));
-        eav.put(":v2", new AttributeValue().withS(startYear));
-        eav.put(":v3", new AttributeValue().withS(endYear));
+        eav.put(":v2", new AttributeValue().withS(String.valueOf(startYear)));
+        eav.put(":v3", new AttributeValue().withS(String.valueOf(endYear)));
         DynamoDBScanExpression scanExpression  = new DynamoDBScanExpression()
                 .withFilterExpression("director = :v1 and yearOfRelease BETWEEN :v2 and :v3 ")
                 .withExpressionAttributeValues(eav);
@@ -101,7 +101,7 @@ public class MovieRepository {
         eav.put(":v1",  new AttributeValue().withS(country));
         eav.put(":v2",  new AttributeValue().withS(year));
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                .withFilterExpression("country = :v1 and date_published = :v2")
+                .withFilterExpression("country = :v1 and yearOfRelease = :v2")
                 .withExpressionAttributeValues(eav);
         System.out.println("HERE 2");
         List<Movie> movieList = dynamoDBMapper.scan(Movie.class, scanExpression);
