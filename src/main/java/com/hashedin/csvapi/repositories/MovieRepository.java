@@ -68,8 +68,8 @@ public class MovieRepository {
         }
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":v1", new AttributeValue().withS(director));
-        eav.put(":v2", new AttributeValue().withS(String.valueOf(startYear)));
-        eav.put(":v3", new AttributeValue().withS(String.valueOf(endYear)));
+        eav.put(":v2", new AttributeValue().withS(startYear));
+        eav.put(":v3", new AttributeValue().withS(endYear));
         DynamoDBScanExpression scanExpression  = new DynamoDBScanExpression()
                 .withFilterExpression("director = :v1 and yearOfRelease BETWEEN :v2 and :v3 ")
                 .withExpressionAttributeValues(eav);

@@ -31,14 +31,14 @@ public class Movie {
     private String director;
 
     @DynamoDBAttribute
-    private String budget;
+    private Integer budget;
 
     @DynamoDBAttribute
-    private String reviews_from_users;
+    private Integer reviews_from_users;
 
 
     public Movie(String title, String yearOfRelease, String genre, String duration, String country, String movie_language, String director
-    , String reviews_from_users, String budget) {
+    , Integer reviews_from_users, Integer budget) {
         this.title = title;
         this.yearOfRelease = yearOfRelease;
         this.genre=genre;

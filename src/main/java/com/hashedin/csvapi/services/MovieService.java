@@ -76,7 +76,7 @@ public class MovieService {
 //              String[] movie_row = line.split(",");
                 String[] movie_row = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);// use comma as separator
                 System.out.println(movie_row[20]);
-                movie = new Movie(movie_row[1], movie_row[3], movie_row[5], movie_row[6], movie_row[7], movie_row[8], movie_row[9], movie_row[16], movie_row[20]);
+                movie = new Movie(movie_row[1], movie_row[3], movie_row[5], movie_row[6], movie_row[7], movie_row[8], movie_row[9], Integer.parseInt(movie_row[16]), Integer.parseInt(movie_row[16]));
                 movieList.add(movie);
             }
 
