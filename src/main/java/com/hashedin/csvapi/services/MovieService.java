@@ -80,7 +80,7 @@ public class MovieService {
     }
 
     public String delete(String id){
-        logger.info("delete movie " + this.getClass().getName());
+        logger.info("delete movie ");
         return movieRepository.delete(id);
     }
     public String  getHighestBudgetTitle(String country, String year)  throws ResourceNotFoundException {
