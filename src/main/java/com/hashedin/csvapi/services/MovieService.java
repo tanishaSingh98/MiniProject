@@ -1,15 +1,15 @@
 package com.hashedin.csvapi.services;
 
 import com.hashedin.csvapi.errorHandling.ApplicationException;
+import com.hashedin.csvapi.errorHandling.ResourceNotFoundException;
 import com.hashedin.csvapi.models.Movie;
 import com.hashedin.csvapi.repositories.MovieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,23 +30,48 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
-    public Movie findById(String id){
+    public Movie findById(String id) throws ResourceNotFoundException {
         logger.info("find movie by id" + id);
-        return movieRepository.findById(id);
+        Movie movie = movieRepository.findById(id);
+        if(!ObjectUtils.isEmpty(movie)){
+            return movie;
+
+        } else {
+            logger.error("findAll {} Record not found", this.getClass().getName());
+            throw new ResourceNotFoundException("Resource not Found");
+        }
     }
 
-    public List<Movie> findAll(){
+    public List<Movie> findAll()throws ResourceNotFoundException{
         logger.info("findAll movies " + this.getClass().getName());
-        return movieRepository.findAll();
+        List<Movie> movies = movieRepository.findAll();
+        if(!movies.isEmpty()) {
+            return movies;
+        } else {
+            logger.error("findAll {} Record not found", this.getClass().getName());
+            throw new ResourceNotFoundException("Resource not Found");
+        }
     }
 
-    public List<String> findByDirectorsAndYear(String director, String startYear, String endYear) {
+    public List<String> findByDirectorsAndYear(String director, String startYear, String endYear)  throws ResourceNotFoundException {
         logger.info("find movies by director{} and year range{} {}" + director + startYear+ endYear);
-        return movieRepository.findByDirectorsAndYear( director,  startYear,  endYear);
+        List<String> titles = movieRepository.findByDirectorsAndYear( director,  startYear,  endYear);;
+        if(!titles.isEmpty()) {
+            return titles;
+        } else {
+            logger.error("findByDirectorsAndYear {} Record not found", this.getClass().getName());
+            throw new ResourceNotFoundException("Resource not Found");
+        }
     }
-    public List<String> findByUserReviewsAndLanguage(String language, String reviews){
+    public List<String> findByUserReviewsAndLanguage(String language, String reviews)  throws ResourceNotFoundException {
         logger.info("find movie titles using user review greater than{} and movie language {} " + reviews + language);
-        return movieRepository.findByUserReviewsAndLanguage(language,reviews);
+        List<String> titles = movieRepository.findByUserReviewsAndLanguage(language,reviews);
+        if(!titles.isEmpty()) {
+            return titles;
+        } else {
+            logger.error("findByUserReviewsAndLanguage {} Record not found", this.getClass().getName());
+            throw new ResourceNotFoundException("Resource not Found");
+        }
     }
 
     public String update(String id, Movie movie){
@@ -58,9 +83,15 @@ public class MovieService {
         logger.info("delete movie " + this.getClass().getName());
         return movieRepository.delete(id);
     }
-    public String  getHighestBudgetTitle(String country, String year){
+    public String  getHighestBudgetTitle(String country, String year)  throws ResourceNotFoundException {
         logger.info("get highest budget movie title given country{} and year{} " + country + year);
-        return movieRepository.getHighestBudgetTitle(country, year);
+        String title = movieRepository.getHighestBudgetTitle(country, year);
+        if(title !="") {
+            return title;
+        } else {
+            logger.error("getHighestBudgetTitle {} Record not found", this.getClass().getName());
+            throw new ResourceNotFoundException("Resource not Found");
+        }
     }
     public List<Movie> loadData() {
         List<Movie> movieList = new ArrayList<>();

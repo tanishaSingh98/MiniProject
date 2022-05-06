@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "Movie2")
+@DynamoDBTable(tableName = "Movie")
 public class Movie {
 
     @DynamoDBHashKey

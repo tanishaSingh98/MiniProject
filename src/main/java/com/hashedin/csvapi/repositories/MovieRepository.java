@@ -79,9 +79,6 @@ public class MovieRepository {
         return movieList.stream().map(m ->m.getTitle()).collect(Collectors.toList());
     }
     public List<String> findByUserReviewsAndLanguage(String language, String reviews) {
-//        if(Integer.parseInt(reviews) <0){
-//            throw new ApplicationException("Review cant be less than 0");
-//        }
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":v1", new AttributeValue().withN(reviews));
         eav.put(":v2", new AttributeValue().withS(language));
@@ -96,17 +93,21 @@ public class MovieRepository {
     }
 
     public String getHighestBudgetTitle(String country, String year) {
-        System.out.println("HERE 1");
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":v1",  new AttributeValue().withS(country));
         eav.put(":v2",  new AttributeValue().withS(year));
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
                 .withFilterExpression("country = :v1 and yearOfRelease = :v2")
                 .withExpressionAttributeValues(eav);
-        System.out.println("HERE 2");
         List<Movie> movieList = dynamoDBMapper.scan(Movie.class, scanExpression);
-        System.out.println(movieList);
+        System.out.println(movieList.stream());
+    if(!movieList.isEmpty()){
+        System.out.println("movieList.stream()");
         logger.debug("Highest budget movie title using user country and year");
+
         return  movieList.stream().max(Comparator.comparing(Movie::getBudget)).get().getTitle();
+    }
+    return "";
+
     }
 }
